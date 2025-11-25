@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IQ Tester - Leaderboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0C1020 0%, #1A1F33 100%);
+            color: white;
+            min-height: 100vh;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        /* Particles Background */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(58, 123, 255, 0.3);
+            border-radius: 50%;
+            animation: float 15s infinite linear;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) translateX(0);
+            }
+            50% {
+                transform: translateY(-20px) translateX(10px);
+            }
+            100% {
+                transform: translateY(0) translateX(0);
+            }
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, #3A7BFF, #9A5CFF);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 15px rgba(154, 92, 255, 0.5);
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            background: rgba(20, 25, 45, 0.7);
+            border-radius: 16px;
+            padding: 5px;
+            margin-bottom: 25px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(58, 123, 255, 0.2);
+        }
+
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 12px 0;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .tab.active {
+            background: rgba(58, 123, 255, 0.2);
+            color: #3A7BFF;
+            box-shadow: 0 0 15px rgba(58, 123, 255, 0.3);
+        }
+
+        /* Leaderboard Cards */
+        .leaderboard {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 80px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(15px);
+            border-radius: 18px;
+            padding: 18px;
+            display: flex;
+            align-items: center;
+            border: 1px solid rgba(58, 123, 255, 0.15);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(58, 123, 255, 0.1), rgba(154, 92, 255, 0.05));
+            z-index: -1;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(58, 123, 255, 0.2);
+        }
+
+        /* Top 3 Cards */
+        .card.top-1 {
+            border: 2px solid rgba(255, 215, 0, 0.6);
+            box-shadow: 0 0 25px rgba(255, 215, 0, 0.4);
+            animation: pulse-gold 3s infinite;
+        }
+
+        .card.top-2 {
+            border: 2px solid rgba(192, 192, 192, 0.6);
+            box-shadow: 0 0 20px rgba(192, 192, 192, 0.4);
+        }
+
+        .card.top-3 {
+            border: 2px solid rgba(205, 127, 50, 0.6);
+            box-shadow: 0 0 20px rgba(205, 127, 50, 0.4);
+        }
+
+        @keyframes pulse-gold {
+            0% { box-shadow: 0 0 25px rgba(255, 215, 0, 0.4); }
+            50% { box-shadow: 0 0 35px rgba(255, 215, 0, 0.6); }
+            100% { box-shadow: 0 0 25px rgba(255, 215, 0, 0.4); }
+        }
+
+        /* Rank Badge */
+        .rank {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            margin-right: 15px;
+            font-size: 1.1rem;
+            background: linear-gradient(135deg, #3A7BFF, #9A5CFF);
+            box-shadow: 0 0 15px rgba(58, 123, 255, 0.5);
+        }
+
+        .top-1 .rank {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+        }
+
+        .top-2 .rank {
+            background: linear-gradient(135deg, #C0C0C0, #A0A0A0);
+            box-shadow: 0 0 15px rgba(192, 192, 192, 0.5);
+        }
+
+        .top-3 .rank {
+            background: linear-gradient(135deg, #CD7F32, #A56A2B);
+            box-shadow: 0 0 15px rgba(205, 127, 50, 0.5);
+        }
+
+        /* User Info */
+        .user-info {
+            flex: 1;
+            display: flex;
+            align-items: center;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 12px;
+            border: 2px solid rgba(58, 123, 255, 0.5);
+            background: linear-gradient(135deg, #3A7BFF, #9A5CFF);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        .top-1 .avatar {
+            border-color: rgba(255, 215, 0, 0.7);
+        }
+
+        .username {
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+
+        .location {
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.6);
+            display: flex;
+            align-items: center;
+        }
+
+        .flag {
+            margin-right: 5px;
+            font-size: 0.9rem;
+        }
+
+        /* Score */
+        .score {
+            font-size: 1.4rem;
+            font-weight: 700;
+            text-align: right;
+            margin-right: 10px;
+            background: linear-gradient(90deg, #3A7BFF, #9A5CFF);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 10px rgba(58, 123, 255, 0.5);
+        }
+
+        .trend {
+            font-size: 1.2rem;
+            width: 30px;
+            text-align: center;
+        }
+
+        .trend.up {
+            color: #4CD964;
+        }
+
+        .trend.down {
+            color: #FF3B30;
+        }
+
+        /* CTA Button */
+        .cta-button {
+            position: fixed;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 450px;
+            background: linear-gradient(90deg, #3A7BFF, #9A5CFF);
+            border: none;
+            border-radius: 16px;
+            padding: 18px;
+            color: white;
+            font-weight: 700;
+            font-size: 1.1rem;
+            box-shadow: 0 5px 25px rgba(58, 123, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .cta-button:hover {
+            transform: translateX(-50%) translateY(-3px);
+            box-shadow: 0 8px 30px rgba(58, 123, 255, 0.7);
+        }
+
+        .cta-button:active {
+            transform: translateX(-50%) translateY(1px);
+        }
+
+        /* Futuristic Lines */
+        .futuristic-line {
+            position: absolute;
+            background: rgba(58, 123, 255, 0.2);
+            border-radius: 1px;
+            z-index: -1;
+        }
+
+        .line-1 {
+            top: 15%;
+            left: 10%;
+            width: 80%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #3A7BFF, transparent);
+        }
+
+        .line-2 {
+            top: 40%;
+            right: 5%;
+            width: 1px;
+            height: 60%;
+            background: linear-gradient(180deg, transparent, #9A5CFF, transparent);
+        }
+
+        .line-3 {
+            bottom: 30%;
+            left: 5%;
+            width: 1px;
+            height: 40%;
+            background: linear-gradient(180deg, transparent, #3A7BFF, transparent);
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .card {
+                padding: 15px;
+            }
+            
+            .score {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="particles" id="particles"></div>
+    
+    <div class="futuristic-line line-1"></div>
+    <div class="futuristic-line line-2"></div>
+    <div class="futuristic-line line-3"></div>
+    
+    <div class="container">
+        <div class="header">
+            <h1>Leaderboard</h1>
+            <p>See how you rank against top minds worldwide</p>
+        </div>
+        
+        <div class="tabs">
+            <div class="tab active">Global</div>
+            <div class="tab">Weekly</div>
+            <div class="tab">Friends</div>
+        </div>
+        
+        <div class="leaderboard">
+            <!-- Top 1 -->
+            <div class="card top-1">
+                <div class="rank">1</div>
+                <div class="user-info">
+                    <div class="avatar">Q</div>
+                    <div>
+                        <div class="username">QuantumMind</div>
+                        <div class="location"><span class="flag">🇺🇸</span> United States</div>
+                    </div>
+                </div>
+                <div class="score">162</div>
+                <div class="trend up"><i class="fas fa-arrow-up"></i></div>
+            </div>
+            
+            <!-- Top 2 -->
+            <div class="card top-2">
+                <div class="rank">2</div>
+                <div class="user-info">
+                    <div class="avatar">N</div>
+                    <div>
+                        <div class="username">NeuroGenius</div>
+                        <div class="location"><span class="flag">🇬🇧</span> United Kingdom</div>
+                    </div>
+                </div>
+                <div class="score">158</div>
+                <div class="trend up"><i class="fas fa-arrow-up"></i></div>
+            </div>
+            
+            <!-- Top 3 -->
+            <div class="card top-3">
+                <div class="rank">3</div>
+                <div class="user-info">
+                    <div class="avatar">C</div>
+                    <div>
+                        <div class="username">CortexPro</div>
+                        <div class="location"><span class="flag">🇩🇪</span> Germany</div>
+                    </div>
+                </div>
+                <div class="score">155</div>
+                <div class="trend down"><i class="fas fa-arrow-down"></i></div>
+            </div>
+            
+            <!-- Other rankings -->
+            <div class="card">
+                <div class="rank">4</div>
+                <div class="user-info">
+                    <div class="avatar">L</div>
+                    <div>
+                        <div class="username">LogicMaster</div>
+                        <div class="location"><span class="flag">🇨🇦</span> Canada</div>
+                    </div>
+                </div>
+                <div class="score">152</div>
+                <div class="trend up"><i class="fas fa-arrow-up"></i></div>
+            </div>
+            
+            <div class="card">
+                <div class="rank">5</div>
+                <div class="user-info">
+                    <div class="avatar">I</div>
+                    <div>
+                        <div class="username">IntelliZen</div>
+                        <div class="location"><span class="flag">🇦🇺</span> Australia</div>
+                    </div>
+                </div>
+                <div class="score">149</div>
+                <div class="trend up"><i class="fas fa-arrow-up"></i></div>
+            </div>
+            
+            <div class="card">
+                <div class="rank">6</div>
+                <div class="user-info">
+                    <div class="avatar">B</div>
+                    <div>
+                        <div class="username">BrainWave</div>
+                        <div class="location"><span class="flag">🇫🇷</span> France</div>
+                    </div>
+                </div>
+                <div class="score">147</div>
+                <div class="trend down"><i class="fas fa-arrow-down"></i></div>
+            </div>
+            
+            <div class="card">
+                <div class="rank">7</div>
+                <div class="user-info">
+                    <div class="avatar">M</div>
+                    <div>
+                        <div class="username">MensaElite</div>
+                        <div class="location"><span class="flag">🇯🇵</span> Japan</div>
+                    </div>
+                </div>
+                <div class="score">145</div>
+                <div class="trend up"><i class="fas fa-arrow-up"></i></div>
+            </div>
+        </div>
+        
+        <button class="cta-button">
+            <i class="fas fa-brain"></i> Take Test Again
+        </button>
+    </div>
+
+    <script>
+        // Create particles for background
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 20;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Random size and position
+                const size = Math.random() * 6 + 2;
+                const posX = Math.random() * 100;
+                const posY = Math.random() * 100;
+                const delay = Math.random() * 15;
+                
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${posX}%`;
+                particle.style.top = `${posY}%`;
+                particle.style.animationDelay = `${delay}s`;
+                
+                // Random color (blue or purple)
+                const colors = ['rgba(58, 123, 255, 0.3)', 'rgba(154, 92, 255, 0.3)'];
+                particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+        
+        // Tab switching functionality
+        function setupTabs() {
+            const tabs = document.querySelectorAll('.tab');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    // Remove active class from all tabs
+                    tabs.forEach(t => t.classList.remove('active'));
+                    
+                    // Add active class to clicked tab
+                    tab.classList.add('active');
+                });
+            });
+        }
+        
+        // Initialize everything when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            createParticles();
+            setupTabs();
+        });
+    </script>
+</body>
+</html>

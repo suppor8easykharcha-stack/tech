@@ -1,0 +1,477 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms & Privacy | IQ Tester</title>
+    <style>
+        :root {
+            --electric-blue: #3A7BFF;
+            --neon-purple: #9A5CFF;
+            --dark-bg-start: #0C1020;
+            --dark-bg-end: #1A1F33;
+            --text-white: #FFFFFF;
+            --text-gray: #CCCCCC;
+            --card-bg: rgba(255, 255, 255, 0.08);
+            --card-border: rgba(58, 123, 255, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--dark-bg-start), var(--dark-bg-end));
+            color: var(--text-white);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Floating particles background */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            background: var(--electric-blue);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: float 15s infinite linear;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) translateX(0);
+            }
+            25% {
+                transform: translateY(-20px) translateX(10px);
+            }
+            50% {
+                transform: translateY(-40px) translateX(0);
+            }
+            75% {
+                transform: translateY(-20px) translateX(-10px);
+            }
+            100% {
+                transform: translateY(0) translateX(0);
+            }
+        }
+
+        /* Header styles */
+        .header {
+            text-align: center;
+            padding: 2rem 1rem 1rem;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 2.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem;
+        }
+
+        .header-icon {
+            color: var(--electric-blue);
+            font-size: 1.8rem;
+        }
+
+        .header::after {
+            content: '';
+            display: block;
+            width: 120px;
+            height: 3px;
+            background: var(--neon-purple);
+            margin: 0.8rem auto 0;
+            border-radius: 3px;
+            box-shadow: 0 0 10px var(--neon-purple);
+        }
+
+        /* Main content container */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+
+        /* Glassmorphism cards */
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 16px;
+            border: 1px solid var(--card-border);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            border-color: rgba(154, 92, 255, 0.4);
+            box-shadow: 0 4px 25px rgba(154, 92, 255, 0.2);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--electric-blue), transparent);
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--electric-blue);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .card-title i {
+            font-size: 1.1rem;
+        }
+
+        .card-content {
+            color: var(--text-gray);
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        .card-content p {
+            margin-bottom: 0.8rem;
+        }
+
+        .card-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Neon divider */
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--electric-blue), transparent);
+            margin: 1.5rem 0;
+            position: relative;
+        }
+
+        .divider::after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 6px;
+            height: 6px;
+            background: var(--neon-purple);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--neon-purple);
+        }
+
+        /* CTA buttons */
+        .cta-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin: 2rem 0 3rem;
+            padding: 0 1rem;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            outline: none;
+        }
+
+        .btn-primary {
+            background: var(--electric-blue);
+            color: white;
+            box-shadow: 0 0 15px rgba(58, 123, 255, 0.5);
+            animation: pulse 2s infinite;
+        }
+
+        .btn-primary:hover {
+            background: #2a6bf0;
+            box-shadow: 0 0 20px rgba(58, 123, 255, 0.7);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--electric-blue);
+            border: 1px solid var(--electric-blue);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(58, 123, 255, 0.1);
+            box-shadow: 0 0 10px rgba(58, 123, 255, 0.3);
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 15px rgba(58, 123, 255, 0.5);
+            }
+            50% {
+                box-shadow: 0 0 20px rgba(58, 123, 255, 0.8);
+            }
+            100% {
+                box-shadow: 0 0 15px rgba(58, 123, 255, 0.5);
+            }
+        }
+
+        /* Scroll glow effect */
+        .scroll-glow {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: linear-gradient(transparent, rgba(154, 92, 255, 0.1));
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        /* Responsive adjustments */
+        @media (min-width: 768px) {
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .card {
+                padding: 2rem;
+            }
+            
+            .cta-container {
+                flex-direction: row;
+                justify-content: center;
+            }
+            
+            .btn {
+                min-width: 180px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating particles background -->
+    <div class="particles" id="particles"></div>
+    
+    <!-- Scroll glow effect -->
+    <div class="scroll-glow" id="scrollGlow"></div>
+    
+    <!-- Header -->
+    <header class="header">
+        <h1>
+            <span class="header-icon">🔒</span>
+            Terms & Privacy
+        </h1>
+    </header>
+    
+    <!-- Main content -->
+    <main class="container">
+        <!-- Introduction -->
+        <div class="card">
+            <h2 class="card-title">
+                <i>✦</i> Introduction
+            </h2>
+            <div class="card-content">
+                <p>Welcome to the IQ Tester App. By using our application, you agree to the following terms and conditions regarding your privacy and data usage.</p>
+                <p>Our commitment is to provide a secure, transparent testing environment while protecting your personal information.</p>
+            </div>
+        </div>
+        
+        <!-- Data Collection -->
+        <div class="card">
+            <h2 class="card-title">
+                <i>✦</i> What Data We Collect
+            </h2>
+            <div class="card-content">
+                <p>We collect minimal information necessary to provide and improve our services:</p>
+                <p>• Test responses and results</p>
+                <p>• Basic device information (OS version, screen size)</p>
+                <p>• Anonymous usage statistics</p>
+                <p>• Optional: Email address for account creation</p>
+            </div>
+        </div>
+        
+        <!-- Data Usage -->
+        <div class="card">
+            <h2 class="card-title">
+                <i>✦</i> How Your Data Is Used
+            </h2>
+            <div class="card-content">
+                <p>Your data helps us:</p>
+                <p>• Calculate and display your IQ score</p>
+                <p>• Improve test accuracy and question quality</p>
+                <p>• Personalize your experience</p>
+                <p>• Conduct research on cognitive patterns (anonymously)</p>
+            </div>
+        </div>
+        
+        <!-- Security -->
+        <div class="card">
+            <h2 class="card-title">
+                <i>✦</i> Security & Encryption Policy
+            </h2>
+            <div class="card-content">
+                <p>We implement industry-standard security measures:</p>
+                <p>• End-to-end encryption for all data transmissions</p>
+                <p>• Secure server infrastructure with regular audits</p>
+                <p>• Strict access controls to personal information</p>
+                <p>• Regular security updates and vulnerability testing</p>
+            </div>
+        </div>
+        
+        <!-- Third-party Services -->
+        <div class="card">
+            <h2 class="card-title">
+                <i>✦</i> Third-party Services
+            </h2>
+            <div class="card-content">
+                <p>We may use trusted third-party services for:</p>
+                <p>• Analytics and performance monitoring</p>
+                <p>• Cloud storage and data processing</p>
+                <p>• Customer support platforms</p>
+                <p>All partners are vetted for compliance with privacy regulations.</p>
+            </div>
+        </div>
+        
+        <!-- Cookies & Analytics -->
+        <div class="card">
+            <h2 class="card-title">
+                <i>✦</i> Cookies & Analytics
+            </h2>
+            <div class="card-content">
+                <p>Our app uses minimal cookies and analytics:</p>
+                <p>• Session cookies for app functionality</p>
+                <p>• Anonymous analytics to improve user experience</p>
+                <p>• No tracking for advertising purposes</p>
+                <p>You can disable analytics in settings without affecting core functionality.</p>
+            </div>
+        </div>
+        
+        <!-- User Rights -->
+        <div class="card">
+            <h2 class="card-title">
+                <i>✦</i> User Rights & Controls
+            </h2>
+            <div class="card-content">
+                <p>You have full control over your data:</p>
+                <p>• Access and download your test history</p>
+                <p>• Request deletion of your account and data</p>
+                <p>• Opt-out of data collection for research</p>
+                <p>• Export your results in multiple formats</p>
+            </div>
+        </div>
+        
+        <!-- Contact -->
+        <div class="card">
+            <h2 class="card-title">
+                <i>✦</i> Contact & Support
+            </h2>
+            <div class="card-content">
+                <p>For privacy concerns or data requests:</p>
+                <p>• Email:suppor8easykharcha@gmail.com</p>
+                <p>• In-app support: Settings > Help & Support</p>
+                <p>• Response time: Within 48 hours</p>
+                <p>We're committed to addressing your privacy questions promptly.</p>
+            </div>
+        </div>
+        
+        <!-- CTA Buttons -->
+        <div class="cta-container">
+            <button class="btn btn-primary">I Agree</button>
+            <button class="btn btn-secondary">Back</button>
+        </div>
+    </main>
+
+    <script>
+        // Create floating particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 20;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Random properties
+                const size = Math.random() * 4 + 1;
+                const posX = Math.random() * 100;
+                const posY = Math.random() * 100;
+                const delay = Math.random() * 15;
+                const duration = Math.random() * 10 + 15;
+                
+                // Apply properties
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${posX}%`;
+                particle.style.top = `${posY}%`;
+                particle.style.animationDelay = `${delay}s`;
+                particle.style.animationDuration = `${duration}s`;
+                
+                // Random color (blue or purple)
+                const color = Math.random() > 0.5 ? 'var(--electric-blue)' : 'var(--neon-purple)';
+                particle.style.background = color;
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+        
+        // Scroll glow effect
+        function handleScrollGlow() {
+            const scrollGlow = document.getElementById('scrollGlow');
+            const scrollPosition = window.scrollY;
+            const windowHeight = window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight;
+            
+            // Calculate how far down the page we've scrolled (0 to 1)
+            const scrollPercentage = scrollPosition / (documentHeight - windowHeight);
+            
+            // Set opacity based on scroll position
+            scrollGlow.style.opacity = Math.min(scrollPercentage * 2, 0.5);
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            createParticles();
+            window.addEventListener('scroll', handleScrollGlow);
+            
+            // Add click handlers for buttons
+            document.querySelector('.btn-primary').addEventListener('click', function() {
+                alert('Thank you for accepting our Terms & Privacy Policy!');
+            });
+            
+            document.querySelector('.btn-secondary').addEventListener('click', function() {
+                window.history.back();
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deep Analysis - IQ Tester</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --electric-blue: #3A7BFF;
+            --neon-purple: #9A5CFF;
+            --dark-gradient-start: #0C1020;
+            --dark-gradient-end: #1A1F33;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --text-primary: #FFFFFF;
+            --text-secondary: #B0B8D9;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--dark-gradient-start), var(--dark-gradient-end));
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding-bottom: 30px;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 25px;
+            padding-top: 10px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--electric-blue), var(--neon-purple));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 15px rgba(58, 123, 255, 0.3);
+        }
+
+        .header-icon {
+            font-size: 24px;
+            color: var(--electric-blue);
+            background: rgba(58, 123, 255, 0.1);
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 15px rgba(58, 123, 255, 0.3);
+        }
+
+        /* Glass Card Styles */
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--electric-blue), transparent);
+        }
+
+        .glass-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--neon-purple), transparent);
+        }
+
+        /* Overview Card */
+        .overview-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .score-circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: conic-gradient(var(--electric-blue) 0% 75%, rgba(255, 255, 255, 0.1) 75% 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            position: relative;
+            box-shadow: 0 0 25px rgba(58, 123, 255, 0.4);
+            animation: pulse 2s infinite alternate;
+        }
+
+        .score-inner {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: var(--dark-gradient-start);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .score-value {
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--electric-blue), var(--neon-purple));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .score-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .category-badge {
+            background: linear-gradient(90deg, var(--electric-blue), var(--neon-purple));
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 14px;
+            margin-top: 10px;
+            box-shadow: 0 0 15px rgba(154, 92, 255, 0.4);
+        }
+
+        /* Question Breakdown */
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            color: var(--text-primary);
+        }
+
+        .section-title i {
+            margin-right: 10px;
+            color: var(--electric-blue);
+        }
+
+        .question-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .question-item:last-child {
+            border-bottom: none;
+        }
+
+        .question-number {
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            background: rgba(58, 123, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 600;
+            margin-right: 15px;
+            color: var(--electric-blue);
+        }
+
+        .question-details {
+            flex: 1;
+        }
+
+        .question-category {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-bottom: 5px;
+        }
+
+        .question-status {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .correct {
+            color: #4CD964;
+        }
+
+        .incorrect {
+            color: #FF3B30;
+        }
+
+        /* Skill Bars */
+        .skill-bar {
+            margin-bottom: 20px;
+        }
+
+        .skill-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .skill-name {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .skill-value {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .skill-progress {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .skill-progress-fill {
+            height: 100%;
+            border-radius: 10px;
+            background: linear-gradient(90deg, var(--electric-blue), var(--neon-purple));
+            position: relative;
+            width: 0;
+            transition: width 1.5s ease-in-out;
+            box-shadow: 0 0 10px rgba(58, 123, 255, 0.5);
+        }
+
+        /* Insights Cards */
+        .insights-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+
+        .insight-card {
+            padding: 15px;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .insight-title {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        .insight-value {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .strength {
+            border-left: 3px solid #4CD964;
+        }
+
+        .improvement {
+            border-left: 3px solid #FF9500;
+        }
+
+        .thinking {
+            border-left: 3px solid var(--neon-purple);
+        }
+
+        /* CTA Button */
+        .cta-button {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(90deg, var(--electric-blue), var(--neon-purple));
+            border: none;
+            border-radius: 16px;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            text-align: center;
+            margin-top: 20px;
+            box-shadow: 0 8px 25px rgba(58, 123, 255, 0.4);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(58, 123, 255, 0.6);
+        }
+
+        /* Animations */
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 25px rgba(58, 123, 255, 0.4);
+            }
+            100% {
+                box-shadow: 0 0 35px rgba(58, 123, 255, 0.7);
+            }
+        }
+
+        @keyframes glow {
+            0% {
+                box-shadow: 0 0 5px rgba(58, 123, 255, 0.5);
+            }
+            50% {
+                box-shadow: 0 0 20px rgba(58, 123, 255, 0.8);
+            }
+            100% {
+                box-shadow: 0 0 5px rgba(58, 123, 255, 0.5);
+            }
+        }
+
+        /* Particle Background */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(58, 123, 255, 0.2);
+            animation: float 15s infinite linear;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) translateX(0);
+            }
+            100% {
+                transform: translateY(-1000px) translateX(100px);
+            }
+        }
+
+        /* Responsive Adjustments */
+        @media (min-width: 768px) {
+            .insights-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .thinking {
+                grid-column: span 2;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="particles" id="particles"></div>
+    
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>Detailed Analysis</h1>
+            <div class="header-icon">
+                <i class="fas fa-chart-line"></i>
+            </div>
+        </div>
+
+        <!-- Overview Card -->
+        <div class="glass-card overview-card">
+            <div class="score-circle">
+                <div class="score-inner">
+                    <div class="score-value">128</div>
+                    <div class="score-label">IQ Score</div>
+                </div>
+            </div>
+            <div class="category-badge">Exceptional Intelligence</div>
+        </div>
+
+        <!-- Question Breakdown -->
+        <div class="glass-card">
+            <div class="section-title">
+                <i class="fas fa-list-ol"></i>
+                Question Breakdown
+            </div>
+            <div class="question-list">
+                <div class="question-item">
+                    <div class="question-number">1</div>
+                    <div class="question-details">
+                        <div class="question-category">Logic</div>
+                        <div class="question-status correct">Correct</div>
+                    </div>
+                </div>
+                <div class="question-item">
+                    <div class="question-number">2</div>
+                    <div class="question-details">
+                        <div class="question-category">Pattern</div>
+                        <div class="question-status correct">Correct</div>
+                    </div>
+                </div>
+                <div class="question-item">
+                    <div class="question-number">3</div>
+                    <div class="question-details">
+                        <div class="question-category">Memory</div>
+                        <div class="question-status incorrect">Incorrect</div>
+                    </div>
+                </div>
+                <div class="question-item">
+                    <div class="question-number">4</div>
+                    <div class="question-details">
+                        <div class="question-category">Visual</div>
+                        <div class="question-status correct">Correct</div>
+                    </div>
+                </div>
+                <div class="question-item">
+                    <div class="question-number">5</div>
+                    <div class="question-details">
+                        <div class="question-category">Logic</div>
+                        <div class="question-status correct">Correct</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Skill Strength Bars -->
+        <div class="glass-card">
+            <div class="section-title">
+                <i class="fas fa-chart-bar"></i>
+                Skill Analysis
+            </div>
+            <div class="skill-bars">
+                <div class="skill-bar">
+                    <div class="skill-header">
+                        <div class="skill-name">Logic Reasoning</div>
+                        <div class="skill-value">92%</div>
+                    </div>
+                    <div class="skill-progress">
+                        <div class="skill-progress-fill" data-width="92"></div>
+                    </div>
+                </div>
+                <div class="skill-bar">
+                    <div class="skill-header">
+                        <div class="skill-name">Visual Reasoning</div>
+                        <div class="skill-value">85%</div>
+                    </div>
+                    <div class="skill-progress">
+                        <div class="skill-progress-fill" data-width="85"></div>
+                    </div>
+                </div>
+                <div class="skill-bar">
+                    <div class="skill-header">
+                        <div class="skill-name">Memory Retention</div>
+                        <div class="skill-value">78%</div>
+                    </div>
+                    <div class="skill-progress">
+                        <div class="skill-progress-fill" data-width="78"></div>
+                    </div>
+                </div>
+                <div class="skill-bar">
+                    <div class="skill-header">
+                        <div class="skill-name">Pattern Recognition</div>
+                        <div class="skill-value">88%</div>
+                    </div>
+                    <div class="skill-progress">
+                        <div class="skill-progress-fill" data-width="88"></div>
+                    </div>
+                </div>
+                <div class="skill-bar">
+                    <div class="skill-header">
+                        <div class="skill-name">Speed Accuracy</div>
+                        <div class="skill-value">81%</div>
+                    </div>
+                    <div class="skill-progress">
+                        <div class="skill-progress-fill" data-width="81"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Insights Cards -->
+        <div class="glass-card">
+            <div class="section-title">
+                <i class="fas fa-lightbulb"></i>
+                Performance Insights
+            </div>
+            <div class="insights-grid">
+                <div class="insight-card strength">
+                    <div class="insight-title">Your Strongest Skill</div>
+                    <div class="insight-value">Logic Reasoning</div>
+                </div>
+                <div class="insight-card improvement">
+                    <div class="insight-title">Area for Improvement</div>
+                    <div class="insight-value">Memory Retention</div>
+                </div>
+                <div class="insight-card thinking">
+                    <div class="insight-title">Your Thinking Style</div>
+                    <div class="insight-value">Analytical & Systematic</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CTA Button -->
+        <button class="cta-button">
+            Back to Home
+        </button>
+    </div>
+
+    <script>
+        // Animate skill bars on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const skillBars = document.querySelectorAll('.skill-progress-fill');
+            
+            setTimeout(() => {
+                skillBars.forEach(bar => {
+                    const width = bar.getAttribute('data-width');
+                    bar.style.width = `${width}%`;
+                });
+            }, 500);
+            
+            // Create particles
+            createParticles();
+        });
+
+        // Create floating particles for background
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 20;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Random size and position
+                const size = Math.random() * 6 + 2;
+                const posX = Math.random() * 100;
+                const posY = Math.random() * 100;
+                const opacity = Math.random() * 0.4 + 0.1;
+                const animationDuration = Math.random() * 20 + 10;
+                
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${posX}%`;
+                particle.style.top = `${posY}%`;
+                particle.style.opacity = opacity;
+                particle.style.animationDuration = `${animationDuration}s`;
+                particle.style.animationDelay = `${Math.random() * 5}s`;
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+    </script>
+</body>
+</html>

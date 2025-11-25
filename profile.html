@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IQ Tester | Profile</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --electric-blue: #3A7BFF;
+            --neon-purple: #9A5CFF;
+            --dark-gradient: linear-gradient(135deg, #0C1020 0%, #1A1F33 100%);
+            --glass-bg: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.12);
+            --text-primary: #FFFFFF;
+            --text-secondary: #B0B5C0;
+        }
+
+        body {
+            background: var(--dark-gradient);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Background Elements */
+        .background-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(58, 123, 255, 0.2);
+            border-radius: 50%;
+            animation: float 15s infinite linear;
+        }
+
+        .neon-line {
+            position: absolute;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--electric-blue), transparent);
+            box-shadow: 0 0 8px var(--electric-blue);
+            animation: pulse 4s infinite alternate;
+        }
+
+        .floating-shape {
+            position: absolute;
+            border: 1px solid rgba(154, 92, 255, 0.3);
+            border-radius: 10px;
+            animation: float 20s infinite linear;
+        }
+
+        /* Profile Header */
+        .profile-header {
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .avatar-container {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 20px;
+        }
+
+        .avatar-frame {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: var(--glass-bg);
+            border: 2px solid var(--glass-border);
+            box-shadow: 0 0 20px var(--neon-purple), 
+                        inset 0 0 20px rgba(154, 92, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            animation: glow 3s infinite alternate;
+        }
+
+        .avatar {
+            width: 90%;
+            height: 90%;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--electric-blue), var(--neon-purple));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            color: white;
+        }
+
+        .user-info {
+            margin-bottom: 20px;
+        }
+
+        .username {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 5px;
+            background: linear-gradient(90deg, var(--electric-blue), var(--neon-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .tagline {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        /* Badges */
+        .badges {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 0 10px rgba(58, 123, 255, 0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .badge:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 15px var(--electric-blue);
+        }
+
+        .badge.streak {
+            color: #FF9A3B;
+        }
+
+        .badge.level {
+            color: #3AFFB2;
+        }
+
+        .badge.skill {
+            color: #FF3A7B;
+        }
+
+        /* Stats Section */
+        .stats-section {
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            margin-bottom: 15px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .stat-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 18px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(58, 123, 255, 0.3);
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 5px;
+            background: linear-gradient(90deg, var(--electric-blue), var(--neon-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        /* Recent Tests */
+        .recent-tests {
+            margin-bottom: 25px;
+        }
+
+        .test-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 18px;
+            margin-bottom: 15px;
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .test-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(154, 92, 255, 0.2);
+        }
+
+        .test-info {
+            flex: 1;
+        }
+
+        .test-score {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .test-details {
+            display: flex;
+            gap: 15px;
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .test-category {
+            background: rgba(58, 123, 255, 0.2);
+            padding: 3px 8px;
+            border-radius: 10px;
+            font-size: 10px;
+        }
+
+        /* Buttons */
+        .actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 14px;
+            border-radius: 12px;
+            font-weight: 600;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            font-size: 14px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, var(--electric-blue), var(--neon-purple));
+            color: white;
+            box-shadow: 0 4px 15px rgba(58, 123, 255, 0.4);
+        }
+
+        .btn-secondary {
+            background: var(--glass-bg);
+            color: var(--text-primary);
+            border: 1px solid var(--glass-border);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(58, 123, 255, 0.5);
+        }
+
+        /* Animations */
+        @keyframes float {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            50% {
+                transform: translate(20px, 20px) rotate(180deg);
+            }
+            100% {
+                transform: translate(0, 0) rotate(360deg);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                opacity: 0.3;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes glow {
+            0% {
+                box-shadow: 0 0 20px var(--neon-purple), 
+                            inset 0 0 20px rgba(154, 92, 255, 0.2);
+            }
+            100% {
+                box-shadow: 0 0 30px var(--neon-purple), 
+                            inset 0 0 30px rgba(154, 92, 255, 0.3);
+            }
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 400px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Elements -->
+    <div class="background-elements" id="background"></div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Profile Header -->
+        <div class="profile-header">
+            <div class="avatar-container">
+                <div class="avatar-frame">
+                    <div class="avatar">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="user-info">
+                <h1 class="username">NeuroMind</h1>
+                <p class="tagline">Pushing cognitive boundaries since 2023</p>
+            </div>
+            <div class="badges">
+                <div class="badge streak">
+                    <i class="fas fa-fire"></i>
+                    <span>42 Day Streak</span>
+                </div>
+                <div class="badge level">
+                    <i class="fas fa-trophy"></i>
+                    <span>Master Level</span>
+                </div>
+                <div class="badge skill">
+                    <i class="fas fa-bolt"></i>
+                    <span>Pattern Expert</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats Section -->
+        <div class="stats-section">
+            <h2 class="section-title">
+                <i class="fas fa-chart-line"></i>
+                Performance Stats
+            </h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value">142</div>
+                    <div class="stat-label">Best IQ Score</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">87</div>
+                    <div class="stat-label">Tests Taken</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">94%</div>
+                    <div class="stat-label">Accuracy</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">#342</div>
+                    <div class="stat-label">Global Rank</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Tests -->
+        <div class="recent-tests">
+            <h2 class="section-title">
+                <i class="fas fa-history"></i>
+                Recent Tests
+            </h2>
+            <div class="test-card">
+                <div class="test-info">
+                    <div class="test-score">138</div>
+                    <div class="test-details">
+                        <span>Today</span>
+                        <span class="test-category">Patterns</span>
+                    </div>
+                </div>
+                <i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="test-card">
+                <div class="test-info">
+                    <div class="test-score">135</div>
+                    <div class="test-details">
+                        <span>2 days ago</span>
+                        <span class="test-category">Logic</span>
+                    </div>
+                </div>
+                <i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="test-card">
+                <div class="test-info">
+                    <div class="test-score">141</div>
+                    <div class="test-details">
+                        <span>5 days ago</span>
+                        <span class="test-category">Memory</span>
+                    </div>
+                </div>
+                <i class="fas fa-chevron-right"></i>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="actions">
+            <button class="btn btn-primary">
+                <i class="fas fa-edit"></i> Edit Profile
+            </button>
+            <button class="btn btn-secondary">
+                <i class="fas fa-list"></i> View Full History
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Create background particles and shapes
+        document.addEventListener('DOMContentLoaded', function() {
+            const background = document.getElementById('background');
+            
+            // Create particles
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                const size = Math.random() * 6 + 2;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+                particle.style.animationDelay = `${Math.random() * 15}s`;
+                
+                background.appendChild(particle);
+            }
+            
+            // Create neon lines
+            for (let i = 0; i < 8; i++) {
+                const line = document.createElement('div');
+                line.classList.add('neon-line');
+                
+                const width = Math.random() * 100 + 50;
+                line.style.width = `${width}px`;
+                line.style.left = `${Math.random() * 100}%`;
+                line.style.top = `${Math.random() * 100}%`;
+                line.style.transform = `rotate(${Math.random() * 360}deg)`;
+                line.style.animationDelay = `${Math.random() * 4}s`;
+                
+                background.appendChild(line);
+            }
+            
+            // Create floating shapes
+            for (let i = 0; i < 5; i++) {
+                const shape = document.createElement('div');
+                shape.classList.add('floating-shape');
+                
+                const size = Math.random() * 40 + 20;
+                shape.style.width = `${size}px`;
+                shape.style.height = `${size}px`;
+                shape.style.left = `${Math.random() * 100}%`;
+                shape.style.top = `${Math.random() * 100}%`;
+                shape.style.animationDelay = `${Math.random() * 20}s`;
+                
+                background.appendChild(shape);
+            }
+        });
+    </script>
+</body>
+</html>

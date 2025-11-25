@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IQ Tester Pro | Premium Intelligence Assessment</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+    <style>
+        :root {
+            --primary: #3A7BFF;
+            --secondary: #9A5CFF;
+            --background-top: #0C1020;
+            --background-bottom: #1A1F33;
+            --accent: #00FFFF;
+            --white: #FFFFFF;
+            --card-bg: rgba(255, 255, 255, 0.08);
+            --card-border: rgba(255, 255, 255, 0.12);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(to bottom, var(--background-top), var(--background-bottom));
+            color: var(--white);
+            min-height: 100vh;
+            overflow-x: hidden;
+            /* Fix for footer overlap */
+            padding-bottom: 80px;
+        }
+
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+        }
+
+        /* Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            margin-bottom: 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .logo-text {
+            font-weight: 700;
+            font-size: 18px;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .profile-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, var(--white), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .hero p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 16px;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        .brain-container {
+            position: relative;
+            width: 200px;
+            height: 180px;
+            margin: 0 auto 25px;
+        }
+
+        .brain {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50% 50% 40% 40%;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(58, 123, 255, 0.3);
+            animation: pulse 4s infinite ease-in-out;
+        }
+
+        .brain::before {
+            content: '';
+            position: absolute;
+            top: 15%;
+            left: 25%;
+            width: 50%;
+            height: 30%;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            filter: blur(10px);
+        }
+
+        .brain::after {
+            content: '';
+            position: absolute;
+            bottom: 15%;
+            right: 20%;
+            width: 60%;
+            height: 25%;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            filter: blur(8px);
+        }
+
+        .brain-lines {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 30% 40%, transparent 10%, rgba(255, 255, 255, 0.1) 10.5%, transparent 11%),
+                radial-gradient(circle at 70% 40%, transparent 10%, rgba(255, 255, 255, 0.1) 10.5%, transparent 11%),
+                radial-gradient(circle at 50% 70%, transparent 12%, rgba(255, 255, 255, 0.1) 12.5%, transparent 13%);
+            animation: rotate 20s infinite linear;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Main CTA Button */
+        .cta-button {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: 16px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(58, 123, 255, 0.4);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(58, 123, 255, 0.5);
+        }
+
+        .cta-button:active {
+            transform: translateY(1px);
+        }
+
+        .cta-button::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: rgba(255, 255, 255, 0.1);
+            transform: rotate(45deg);
+            transition: all 0.5s ease;
+            opacity: 0;
+        }
+
+        .cta-button:hover::after {
+            opacity: 1;
+            transform: rotate(45deg) translate(10%, 10%);
+        }
+
+        /* Stats Cards */
+        .stats-section {
+            margin: 30px 0;
+        }
+
+        .stats-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 20px 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 5px;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Practice Section */
+        .practice-section {
+            margin: 30px 0;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .practice-cards {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .practice-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .practice-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .practice-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .practice-name {
+            font-size: 14px;
+            font-weight: 500;
+            text-align: center;
+        }
+
+        /* Footer Navigation */
+        footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(12, 16, 32, 0.9);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 15px 20px;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 8px 12px;
+            border-radius: 12px;
+        }
+
+        .nav-item.active {
+            background: rgba(58, 123, 255, 0.2);
+        }
+
+        .nav-item:hover {
+            transform: translateY(-3px);
+        }
+
+        .nav-icon {
+            font-size: 20px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .nav-item.active .nav-icon {
+            color: var(--primary);
+        }
+
+        .nav-label {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .nav-item.active .nav-label {
+            color: var(--white);
+        }
+
+        /* Floating Particles */
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 15s infinite linear;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(100px);
+                opacity: 0;
+            }
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 380px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .hero h1 {
+                font-size: 28px;
+            }
+            
+            .stats-grid, .practice-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="particles" id="particles"></div>
+    
+    <div class="container">
+        <header>
+            <div class="logo">
+                <div class="logo-icon">IQ</div>
+                <div class="logo-text">IQ Tester Pro</div>
+            </div>
+            <div class="profile-icon" id="profileIcon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 12C14.7614 12 17 9.76142 17 7C17 4.23858 14.7614 2 12 2C9.23858 2 7 4.23858 7 7C7 9.76142 9.23858 12 12 12Z" stroke="white" stroke-width="2"/>
+                    <path d="M20 22C20 19.2386 16.4183 17 12 17C7.58172 17 4 19.2386 4 22" stroke="white" stroke-width="2"/>
+                </svg>
+            </div>
+        </header>
+        
+        <section class="hero">
+            <div class="brain-container">
+                <div class="brain">
+                    <div class="brain-lines"></div>
+                </div>
+            </div>
+            <h1>Unlock Your Cognitive Potential</h1>
+            <p>Take our scientifically designed IQ test and discover your true intellectual capabilities</p>
+            <button class="cta-button" id="startTestBtn">Start IQ Test</button>
+        </section>
+        
+        <section class="stats-section">
+            <h2 class="stats-title">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="var(--accent)" stroke-width="2"/>
+                </svg>
+                Your Stats
+            </h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value">128</div>
+                    <div class="stat-label">Last Score</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">87%</div>
+                    <div class="stat-label">Percentile</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">5</div>
+                    <div class="stat-label">Day Streak</div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="practice-section">
+            <h2 class="section-title">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 14L9 11H7L5 13V15L7 17H9L12 14Z" stroke="var(--accent)" stroke-width="2"/>
+                    <path d="M12 14L15 17H17L19 15V13L17 11H15L12 14Z" stroke="var(--accent)" stroke-width="2"/>
+                    <path d="M12 10V14" stroke="var(--accent)" stroke-width="2"/>
+                </svg>
+                Try Practice Tests
+            </h2>
+            <div class="practice-cards">
+                <div class="practice-card" id="patternCard">
+                    <div class="practice-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="white" stroke-width="2"/>
+                        </svg>
+                    </div>
+                    <div class="practice-name">Pattern Recognition</div>
+                </div>
+                <div class="practice-card" id="logicCard">
+                    <div class="practice-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 17L7 19M7 19L5 17M7 19V13M15 7L17 5M17 5L19 7M17 5V11" stroke="white" stroke-width="2"/>
+                            <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="white" stroke-width="2"/>
+                        </svg>
+                    </div>
+                    <div class="practice-name">Logical Reasoning</div>
+                </div>
+                <div class="practice-card" id="verbalCard">
+                    <div class="practice-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M3 9H21M9 15L7 17M7 17L5 15M7 17V11M15 15L17 17M17 17L19 15M17 17V11" stroke="white" stroke-width="2"/>
+                        </svg>
+                    </div>
+                    <div class="practice-name">Verbal Ability</div>
+                </div>
+                <div class="practice-card" id="spatialCard">
+                    <div class="practice-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M14.8284 14.8284C13.2663 16.3905 10.7337 16.3905 9.17157 14.8284C7.60948 13.2663 7.60948 10.7337 9.17157 9.17157C10.7337 7.60948 13.2663 7.60948 14.8284 9.17157M14.8284 14.8284L18.3639 18.364M14.8284 14.8284L18.3639 18.364M18.3639 18.364C18.7545 18.7545 19.3876 18.7545 19.7782 18.364C20.1687 17.9735 20.1687 17.3403 19.7782 16.9497L16.2426 13.4142M14.8284 14.8284L18.3639 18.364" stroke="white" stroke-width="2"/>
+                            <path d="M12 8V4" stroke="white" stroke-width="2"/>
+                        </svg>
+                    </div>
+                    <div class="practice-name">Spatial Awareness</div>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <footer>
+        <div class="nav-container">
+            <div class="nav-item active" id="homeNav">
+                <div class="nav-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z" stroke="currentColor" stroke-width="2"/>
+                        <path d="M9 22V12H15V22" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                </div>
+                <div class="nav-label">Home</div>
+            </div>
+            <div class="nav-item" id="profileNav">
+                <div class="nav-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9 5H7C6.46957 5 5.96086 5.21071 5.58579 5.58579C5.21071 5.96086 5 6.46957 5 7V19C5 19.5304 5.21071 20.0391 5.58579 20.4142C5.96086 20.7893 6.46957 21 7 21H17C17.5304 21 18.0391 20.7893 18.4142 20.4142C18.7893 20.0391 19 19.5304 19 19V7C19 6.46957 18.7893 5.96086 18.4142 5.58579C18.0391 5.21071 17.5304 5 17 5H15" stroke="currentColor" stroke-width="2"/>
+                        <path d="M12 12C13.6569 12 15 10.6569 15 9C15 7.34315 13.6569 6 12 6C10.3431 6 9 7.34315 9 9C9 10.6569 10.3431 12 12 12Z" stroke="currentColor" stroke-width="2"/>
+                        <path d="M12 12V16" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                </div>
+                <div class="nav-label">Profile</div>
+            </div>
+            <div class="nav-item" id="historyNav">
+                <div class="nav-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M8 7V3M16 7V3M7 11H17M5 21H19C19.5304 21 20.0391 20.7893 20.4142 20.4142C20.7893 20.0391 21 19.5304 21 19V7C21 6.46957 20.7893 5.96086 20.4142 5.58579C20.0391 5.21071 19.5304 5 19 5H5C4.46957 5 3.96086 5.21071 3.58579 5.58579C3.21071 5.96086 3 6.46957 3 7V19C3 19.5304 3.21071 20.0391 3.58579 20.4142C3.96086 20.7893 4.46957 21 5 21Z" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                </div>
+                <div class="nav-label">History</div>
+            </div>
+            <div class="nav-item" id="settingsNav">
+                <div class="nav-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M10.325 4.317C10.751 2.561 13.249 2.561 13.675 4.317C13.861 5.151 14.733 5.667 15.561 5.442C17.344 4.959 18.792 6.791 17.774 8.289C17.227 9.097 17.516 10.191 18.414 10.597C19.976 11.289 19.976 13.711 18.414 14.403C17.516 14.809 17.227 15.903 17.774 16.711C18.792 18.209 17.344 20.041 15.561 19.558C14.733 19.333 13.861 19.849 13.675 20.683C13.249 22.439 10.751 22.439 10.325 20.683C10.139 19.849 9.267 19.333 8.439 19.558C6.656 20.041 5.208 18.209 6.226 16.711C6.773 15.903 6.484 14.809 5.586 14.403C4.024 13.711 4.024 11.289 5.586 10.597C6.484 10.191 6.773 9.097 6.226 8.289C5.208 6.791 6.656 4.959 8.439 5.442C9.267 5.667 10.139 5.151 10.325 4.317Z" stroke="currentColor" stroke-width="2"/>
+                        <path d="M15 12C15 13.6569 13.6569 15 12 15C10.3431 15 9 13.6569 9 12C9 10.3431 10.3431 9 12 9C13.6569 9 15 10.3431 15 12Z" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                </div>
+                <div class="nav-label">Settings</div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Create floating particles
+        document.addEventListener('DOMContentLoaded', function() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 15;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Random size between 2px and 6px
+                const size = Math.random() * 4 + 2;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                // Random position
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+                
+                // Random animation delay
+                particle.style.animationDelay = `${Math.random() * 15}s`;
+                
+                particlesContainer.appendChild(particle);
+            }
+            
+            // Add micro-interactions to cards
+            const cards = document.querySelectorAll('.stat-card, .practice-card');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-5px)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+            
+            // Add interaction to CTA button
+            const ctaButton = document.getElementById('startTestBtn');
+            ctaButton.addEventListener('click', function() {
+                this.style.transform = 'scale(0.98)';
+                setTimeout(() => {
+                    this.style.transform = 'scale(1)';
+                }, 150);
+                
+                // Redirect to test start page
+                window.location.href = "test-start.html";
+            });
+            
+            // Navigation functionality
+            document.getElementById('homeNav').addEventListener('click', function() {
+                window.location.href = "home.html";
+            });
+            
+            document.getElementById('profileNav').addEventListener('click', function() {
+                window.location.href = "profile.html";
+            });
+            
+            document.getElementById('historyNav').addEventListener('click', function() {
+                window.location.href = "history.html";
+            });
+            
+            document.getElementById('settingsNav').addEventListener('click', function() {
+                window.location.href = "settings.html";
+            });
+            
+            // Profile icon functionality
+            document.getElementById('profileIcon').addEventListener('click', function() {
+                window.location.href = "profile.html";
+            });
+            
+            // Practice test cards functionality
+            document.getElementById('patternCard').addEventListener('click', function() {
+                window.location.href = "practice-pattern.html";
+            });
+            
+            document.getElementById('logicCard').addEventListener('click', function() {
+                window.location.href = "practice-logic.html";
+            });
+            
+            document.getElementById('verbalCard').addEventListener('click', function() {
+                window.location.href = "practice-verbal.html";
+            });
+            
+            document.getElementById('spatialCard').addEventListener('click', function() {
+                window.location.href = "practice-spatial.html";
+            });
+        });
+    </script>
+</body>
+</html>
