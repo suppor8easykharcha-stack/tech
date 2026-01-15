@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IQ Tester - Settings</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --electric-blue: #3A7BFF;
+            --neon-purple: #9A5CFF;
+            --neon-red: #FF3A7B;
+            --dark-bg-start: #0C1020;
+            --dark-bg-end: #1A1F33;
+            --glass-bg: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.12);
+            --text-light: #FFFFFF;
+            --text-dim: #B0B5C5;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--dark-bg-start), var(--dark-bg-end));
+            color: var(--text-light);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--electric-blue), var(--neon-purple));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 15px rgba(58, 123, 255, 0.5);
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 25%;
+            width: 50%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--electric-blue), var(--neon-purple), transparent);
+            border-radius: 2px;
+        }
+
+        /* Glassmorphism Cards */
+        .card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            box-shadow: 0 8px 32px rgba(58, 123, 255, 0.15);
+            border-color: rgba(58, 123, 255, 0.2);
+        }
+
+        .section-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 18px;
+            color: var(--electric-blue);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title i {
+            font-size: 1.1rem;
+        }
+
+        /* Toggle Switches */
+        .toggle-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+            padding-bottom: 18px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .toggle-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .toggle-label {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 500;
+        }
+
+        .toggle-label i {
+            font-size: 1.2rem;
+            color: var(--neon-purple);
+            width: 24px;
+            text-align: center;
+        }
+
+        /* Custom Toggle Switch */
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 56px;
+            height: 28px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 4px;
+            bottom: 3px;
+            background-color: var(--text-dim);
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background: linear-gradient(90deg, var(--electric-blue), var(--neon-purple));
+            box-shadow: 0 0 10px rgba(58, 123, 255, 0.5);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+            background-color: white;
+        }
+
+        /* Dropdown */
+        .dropdown-item {
+            margin-bottom: 18px;
+        }
+
+        .dropdown-label {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+
+        .dropdown-label i {
+            font-size: 1.2rem;
+            color: var(--neon-purple);
+            width: 24px;
+            text-align: center;
+        }
+
+        .dropdown-select {
+            width: 100%;
+            padding: 14px 16px;
+            border-radius: 12px;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-light);
+            font-size: 1rem;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%233A7BFF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            background-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .dropdown-select:focus {
+            outline: none;
+            border-color: var(--electric-blue);
+            box-shadow: 0 0 0 2px rgba(58, 123, 255, 0.2);
+        }
+
+        /* Buttons */
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            padding: 16px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 12px;
+        }
+
+        .btn-primary {
+            background: rgba(58, 123, 255, 0.15);
+            color: var(--electric-blue);
+            border: 1px solid rgba(58, 123, 255, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: rgba(58, 123, 255, 0.25);
+            box-shadow: 0 0 15px rgba(58, 123, 255, 0.3);
+        }
+
+        .btn-danger {
+            background: rgba(255, 58, 123, 0.15);
+            color: var(--neon-red);
+            border: 1px solid rgba(255, 58, 123, 0.3);
+        }
+
+        .btn-danger:hover {
+            background: rgba(255, 58, 123, 0.25);
+            box-shadow: 0 0 15px rgba(255, 58, 123, 0.3);
+        }
+
+        /* App Section */
+        .app-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px;
+            border-radius: 12px;
+            background: rgba(0, 0, 0, 0.1);
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .app-item:hover {
+            background: rgba(58, 123, 255, 0.1);
+            transform: translateX(5px);
+        }
+
+        .app-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .app-item-content {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .app-item i {
+            font-size: 1.2rem;
+            color: var(--neon-purple);
+        }
+
+        .app-item .arrow {
+            color: var(--text-dim);
+            font-size: 0.9rem;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px 0;
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            text-shadow: 0 0 10px rgba(154, 92, 255, 0.5);
+        }
+
+        /* Micro-interactions */
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(58, 123, 255, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(58, 123, 255, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(58, 123, 255, 0); }
+        }
+
+        .toggle-switch input:checked + .slider {
+            animation: pulse 1.5s infinite;
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .card {
+                padding: 16px;
+            }
+            
+            .btn {
+                padding: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>Settings</h1>
+        </div>
+
+        <!-- Preferences Section -->
+        <div class="card">
+            <h2 class="section-title"><i class="fas fa-sliders-h"></i> Preferences</h2>
+            
+            <!-- Theme Toggle -->
+            <div class="toggle-item">
+                <div class="toggle-label">
+                    <i class="fas fa-moon"></i>
+                    <span>Dark Mode</span>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox" checked>
+                    <span class="slider"></span>
+                </label>
+            </div>
+            
+            <!-- Sound Toggle -->
+            <div class="toggle-item">
+                <div class="toggle-label">
+                    <i class="fas fa-volume-up"></i>
+                    <span>Sound</span>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox" checked>
+                    <span class="slider"></span>
+                </label>
+            </div>
+            
+            <!-- Vibration Toggle -->
+            <div class="toggle-item">
+                <div class="toggle-label">
+                    <i class="fas fa-vibrate"></i>
+                    <span>Vibration</span>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox" checked>
+                    <span class="slider"></span>
+                </label>
+            </div>
+            
+            <!-- Language Selector -->
+            <div class="dropdown-item">
+                <div class="dropdown-label">
+                    <i class="fas fa-globe"></i>
+                    <span>Language</span>
+                </div>
+                <select class="dropdown-select">
+                    <option value="en">English</option>
+                    <option value="ur">Urdu</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Account Section -->
+        <div class="card">
+            <h2 class="section-title"><i class="fas fa-user-circle"></i> Account</h2>
+            
+            <button class="btn btn-primary">
+                <i class="fas fa-key"></i>
+                Change Password
+            </button>
+            
+            <button class="btn btn-danger">
+                <i class="fas fa-sign-out-alt"></i>
+                Logout
+            </button>
+        </div>
+
+        <!-- App Section -->
+        <div class="card">
+            <h2 class="section-title"><i class="fas fa-cube"></i> App</h2>
+            
+            <div class="app-item">
+                <div class="app-item-content">
+                    <i class="fas fa-file-contract"></i>
+                    <span>Terms & Policy</span>
+                </div>
+                <i class="fas fa-chevron-right arrow"></i>
+            </div>
+            
+            <div class="app-item">
+                <div class="app-item-content">
+                    <i class="fas fa-info-circle"></i>
+                    <span>About App</span>
+                </div>
+                <i class="fas fa-chevron-right arrow"></i>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>IQ Tester App &copy; 2023 | Unleash Your Mind's Potential</p>
+        </div>
+    </div>
+
+    <script>
+        // Add micro-interactions for toggles
+        document.querySelectorAll('.toggle-switch input').forEach(toggle => {
+            toggle.addEventListener('change', function() {
+                const slider = this.nextElementSibling;
+                if (this.checked) {
+                    slider.style.animation = 'pulse 1.5s infinite';
+                } else {
+                    slider.style.animation = 'none';
+                }
+            });
+        });
+
+        // Add hover effects for interactive elements
+        document.querySelectorAll('.app-item, .btn').forEach(element => {
+            element.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-2px)';
+            });
+            
+            element.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+    </script>
+</body>
+</html>
